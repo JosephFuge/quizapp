@@ -19,20 +19,15 @@ class LoginPage extends StatelessWidget {
           LoginButton(
               text: 'Continue as Guest',
               icon: FontAwesomeIcons.user,
-              loginMethod: () {
-                final Logger logger = Logger(printer: PrettyPrinter());
-                logger.d('Anonymous Login Button Tapped');
-                AuthService().anonymousLogin();
+              loginMethod: () async {
+                await AuthService().anonymousLogin();
               }),
-          const SizedBox(height: 32),
-          TextButton(
-            onPressed: () async {
-              final Logger logger = Logger(printer: PrettyPrinter());
-              logger.d('Anonymous Login TextButton Tapped');
-              AuthService().anonymousLogin();
-            },
-            child: const Text('Anonymous Login'),
-          ),
+          LoginButton(
+              text: 'Sign in with Google',
+              icon: FontAwesomeIcons.google,
+              loginMethod: () async {
+                await AuthService().googleLogin();
+              })
         ],
       ),
     );
@@ -54,27 +49,25 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32.0),
-      child: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () => loginMethod,
-        child: AbsorbPointer(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              border: Border.all(width: 2.0, color: Colors.white),
-              shape: BoxShape.rectangle,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(16.0),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                children: [
-                  Icon(icon, size: 16.0),
-                  const SizedBox(width: 8.0),
-                  Text(text),
-                ],
-              ),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border.all(width: 2.0, color: Colors.white),
+          shape: BoxShape.rectangle,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(16.0),
+          ),
+        ),
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => loginMethod(),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              children: [
+                Icon(icon, size: 16.0),
+                const SizedBox(width: 8.0),
+                Text(text),
+              ],
             ),
           ),
         ),
