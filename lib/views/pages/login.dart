@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logger/logger.dart';
 import 'package:quizapp/services/auth.dart';
 
 class LoginPage extends StatelessWidget {
@@ -18,7 +19,20 @@ class LoginPage extends StatelessWidget {
           LoginButton(
               text: 'Continue as Guest',
               icon: FontAwesomeIcons.user,
-              loginMethod: AuthService().anonymousLogin)
+              loginMethod: () {
+                final Logger logger = Logger(printer: PrettyPrinter());
+                logger.d('Anonymous Login Button Tapped');
+                AuthService().anonymousLogin();
+              }),
+          const SizedBox(height: 32),
+          TextButton(
+            onPressed: () async {
+              final Logger logger = Logger(printer: PrettyPrinter());
+              logger.d('Anonymous Login TextButton Tapped');
+              AuthService().anonymousLogin();
+            },
+            child: const Text('Anonymous Login'),
+          ),
         ],
       ),
     );
@@ -41,23 +55,26 @@ class LoginButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32.0),
       child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
         onTap: () => loginMethod,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            border: Border.all(width: 2.0, color: Colors.white),
-            shape: BoxShape.rectangle,
-            borderRadius: const BorderRadius.all(
-              Radius.circular(16.0),
+        child: AbsorbPointer(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border.all(width: 2.0, color: Colors.white),
+              shape: BoxShape.rectangle,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(16.0),
+              ),
             ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
-              children: [
-                Icon(icon, size: 16.0),
-                const SizedBox(width: 8.0),
-                Text(text),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                children: [
+                  Icon(icon, size: 16.0),
+                  const SizedBox(width: 8.0),
+                  Text(text),
+                ],
+              ),
             ),
           ),
         ),
