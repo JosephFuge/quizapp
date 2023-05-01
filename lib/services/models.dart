@@ -16,8 +16,8 @@ class Topic {
       this.img = '',
       this.quizzes = const []});
 
-  factory Topic.fromJson(Map<String, dynamic> json) => $_TopicFromJson(json);
-  Map<String, dynamic> toJson() => $_TopicToJson(this);
+  factory Topic.fromJson(Map<String, dynamic> json) => _$TopicFromJson(json);
+  Map<String, dynamic> toJson() => _$TopicToJson(this);
 }
 
 @JsonSerializable()
@@ -37,8 +37,8 @@ class Quiz {
       this.video = '',
       this.questions = const []});
 
-  factory Quiz.fromJson(Map<String, dynamic> json) => $_QuizFromJson(json);
-  Map<String, dynamic> toJson() => $_QuizToJson(this);
+  factory Quiz.fromJson(Map<String, dynamic> json) => _$QuizFromJson(json);
+  Map<String, dynamic> toJson() => _$QuizToJson(this);
 }
 
 @JsonSerializable()
@@ -48,8 +48,8 @@ class Report {
   Map topics;
 
   Report({this.uid = '', this.topics = const {}, this.total = 0});
-  factory Report.fromJson(Map<String, dynamic> json) => $_ReportFromJson(json);
-  Map<String, dynamic> toJson() => $_ReportToJson(this);
+  factory Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);
+  Map<String, dynamic> toJson() => _$ReportToJson(this);
 }
 
 @JsonSerializable()
@@ -58,8 +58,8 @@ class Question {
   List<Option> options;
 
   Question({this.text = '', this.options = const []});
-  factory Question.fromJson(Map<String, dynamic> json) => $_QuestionFromJson(json);
-  Map<String, dynamic> toJson() => $_QuestionToJson(this);
+  factory Question.fromJson(Map<String, dynamic> json) => _$QuestionFromJson(json);
+  Map<String, dynamic> toJson() => _$QuestionToJson(this);
 }
 
 @JsonSerializable()
@@ -68,6 +68,6 @@ class Option {
   String detail;
   bool correct;
   Option({this.value = '', this.detail = '', this.correct = false});
-  factory Option.fromJson(Map<String, dynamic> json) => $_OptionFromJson(json);
-  Map<String, dynamic> toJson() => $_OptionToJson(this);
+  factory Option.fromJson(Map<String, dynamic> json) => _$OptionFromJson(json);
+  Map<String, dynamic> toJson() => _$OptionToJson(this);
 }
