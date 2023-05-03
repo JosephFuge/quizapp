@@ -3,7 +3,7 @@ import 'package:quizapp/views/pages/about.dart';
 import 'package:quizapp/views/pages/home.dart';
 import 'package:quizapp/views/pages/login.dart';
 import 'package:quizapp/views/pages/profile.dart';
-import 'package:quizapp/views/pages/topics.dart';
+import 'package:quizapp/views/pages/topics/topics.dart';
 
 class QuizRoutes {
   static String loginPage = '/login';

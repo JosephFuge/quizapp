@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/services/models.dart';
+import 'package:quizapp/views/pages/topics/drawer.dart';
 
 class TopicScreen extends StatelessWidget {
   const TopicScreen({required this.topic, super.key});
@@ -22,6 +23,7 @@ class TopicScreen extends StatelessWidget {
           style: const TextStyle(
               height: 2, fontSize: 20, fontWeight: FontWeight.bold),
         ),
+        QuizList(topic: topic),
       ]),
     );
   }

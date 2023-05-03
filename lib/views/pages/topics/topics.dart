@@ -35,6 +35,7 @@ class TopicsPage extends StatelessWidget {
               );
             }
           }),
+      drawer: TopicDrawer(topics: topics),
     );
   }
 }

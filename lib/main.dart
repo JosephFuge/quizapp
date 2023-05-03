@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:quizapp/routes.dart';
+import 'package:quizapp/services/firestore.dart';
+import 'package:quizapp/services/models.dart';
 import 'package:quizapp/theme.dart';
 
 void main() {
@@ -12,10 +15,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: appTheme,
-      routes: QuizRoutes.appRoutes,
+    return StreamProvider(
+      create: (context) => FirestoreService().streamReport(),
+      initialData: Report(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: appTheme,
+        routes: QuizRoutes.appRoutes,
+      ),
     );
   }
 }

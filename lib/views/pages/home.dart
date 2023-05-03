@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:quizapp/services/auth.dart';
 import 'package:quizapp/views/pages/login.dart';
-import 'package:quizapp/views/pages/topics.dart';
+import 'package:quizapp/views/pages/topics/topics.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
