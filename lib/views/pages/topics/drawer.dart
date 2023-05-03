@@ -10,24 +10,27 @@ class TopicDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+        width: MediaQuery.of(context).size.width * .75,
         child: ListView.separated(
-      shrinkWrap: true,
-      itemCount: topics.length,
-      itemBuilder: (context, index) {
-        final Topic topic = topics[index];
-        return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0, left: 10.0),
-            child: Text(
-              topic.title,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ),
-          QuizList(topic: topic),
-        ]);
-      },
-      separatorBuilder: (context, num) => const Divider(),
-    ));
+          itemCount: topics.length,
+          itemBuilder: (context, index) {
+            final Topic topic = topics[index];
+            return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                    child: Text(
+                      topic.title,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  QuizList(topic: topic),
+                ]);
+          },
+          separatorBuilder: (context, idx) => const Divider(),
+        ));
   }
 }
 
@@ -70,7 +73,7 @@ class QuizBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Report report = Provider.of<Report>(context);
-    List completed = report.topics[topic.id] ?? [];
+    final completed = report.topics[topic.id] ?? [];
 
     if (completed.contains(quizId)) {
       return const Icon(FontAwesomeIcons.checkDouble, color: Colors.green);

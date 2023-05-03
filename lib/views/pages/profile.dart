@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/services/auth.dart';
+import 'package:quizapp/views/components/bottom_nav_bar.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -19,6 +20,7 @@ class ProfilePage extends StatelessWidget {
               }
             }),
       ),
+      bottomNavigationBar: const BottomNavBar(),
     );
   }
 }

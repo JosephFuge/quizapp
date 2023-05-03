@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return StreamProvider(
+    return StreamProvider<Report>(
       create: (context) => FirestoreService().streamReport(),
       initialData: Report(),
       child: MaterialApp(
@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
         theme: appTheme,
         routes: QuizRoutes.appRoutes,
       ),
+      catchError: (context, error) => Report(),
     );
   }
 }

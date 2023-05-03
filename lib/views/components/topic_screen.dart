@@ -18,10 +18,13 @@ class TopicScreen extends StatelessWidget {
           child: Image.asset('assets/${topic.img}',
               width: MediaQuery.of(context).size.width),
         ),
-        Text(
-          topic.title,
-          style: const TextStyle(
-              height: 2, fontSize: 20, fontWeight: FontWeight.bold),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            topic.title,
+            style: const TextStyle(
+                height: 2, fontSize: 20, fontWeight: FontWeight.bold),
+          ),
         ),
         QuizList(topic: topic),
       ]),
