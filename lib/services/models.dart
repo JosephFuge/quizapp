@@ -45,7 +45,7 @@ class Quiz {
 class Report {
   String uid;
   int total;
-  Map topics;
+  Map<String, List<String>> topics;
 
   Report({this.uid = '', this.topics = const {}, this.total = 0});
   factory Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);
@@ -58,7 +58,8 @@ class Question {
   List<Option> options;
 
   Question({this.text = '', this.options = const []});
-  factory Question.fromJson(Map<String, dynamic> json) => _$QuestionFromJson(json);
+  factory Question.fromJson(Map<String, dynamic> json) =>
+      _$QuestionFromJson(json);
   Map<String, dynamic> toJson() => _$QuestionToJson(this);
 }
 
