@@ -11,9 +11,9 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.graduationCap, size: iconSize, color: currentPage == 0 ? Colors.deepPurple[200] : Colors.white70),
+            icon: Icon(FontAwesomeIcons.graduationCap, size: iconSize),
             label: 'Topics',
           ),
           BottomNavigationBarItem(
@@ -21,7 +21,7 @@ class BottomNavBar extends StatelessWidget {
             label: 'About',
           ),
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.circleUser, size: iconSize, color: currentPage == 2 ? Colors.deepPurple[200] : Colors.white70),
+            icon: Icon(FontAwesomeIcons.circleUser, size: iconSize),
             label: 'Profile',
           )
         ],
