@@ -5,7 +5,6 @@ import 'package:quizapp/services/firestore.dart';
 import 'package:quizapp/services/models.dart';
 import 'package:quizapp/views/components/progress_bar.dart';
 import 'package:quizapp/views/pages/quiz/quiz_state.dart';
-import 'package:quizapp/routes.dart';
 
 class QuizScreen extends StatelessWidget {
   const QuizScreen({required this.quizId, super.key});
@@ -114,11 +113,7 @@ class QuestionPage extends StatelessWidget {
               _bottomSheet(context, option, state);
             },
             child: ListTile(
-              leading: Icon(
-                  option == state.selected
-                      ? FontAwesomeIcons.circleCheck
-                      : FontAwesomeIcons.circle,
-                  color: Colors.grey),
+              leading: Icon(option == state.selected ? FontAwesomeIcons.circleCheck : FontAwesomeIcons.circle, color: Colors.grey),
               title: Text(option.value),
             ),
           )
@@ -145,8 +140,7 @@ class QuestionPage extends StatelessWidget {
                   style: const TextStyle(fontSize: 18, color: Colors.white54),
                 ),
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: correct ? Colors.green : Colors.red),
+                  style: ElevatedButton.styleFrom(backgroundColor: correct ? Colors.green : Colors.red),
                   child: Text(
                     correct ? 'Onward!' : 'Try Again',
                     style: const TextStyle(
@@ -179,8 +173,7 @@ class CongratsPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(height: 16),
-        Text('Congratulations! You finished the ${quiz.title} quiz!',
-            style: Theme.of(context).textTheme.headlineSmall),
+        Text('Congratulations! You finished the ${quiz.title} quiz!', style: Theme.of(context).textTheme.headlineSmall),
         const SizedBox(
           height: 32,
         ),
@@ -192,11 +185,8 @@ class CongratsPage extends StatelessWidget {
           ),
           onPressed: () {
             FirestoreService().updateUserReport(quiz);
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              QuizRoutes.topicsPage,
-              (route) => false,
-            );
+            Navigator.pop(context);
+            Navigator.pop(context);
           },
         ),
       ],

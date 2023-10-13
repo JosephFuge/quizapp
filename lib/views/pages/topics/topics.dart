@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/services/firestore.dart';
 import 'package:quizapp/services/models.dart';
-import 'package:quizapp/views/components/bottom_nav_bar.dart';
 import 'package:quizapp/views/components/topic_item.dart';
 import 'package:quizapp/views/pages/topics/drawer.dart';
 
@@ -22,7 +21,6 @@ class TopicsPage extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(title: const Text('Topics')),
-            bottomNavigationBar: const BottomNavBar(),
             body: GridView.count(
               primary: false,
               padding: const EdgeInsets.all(20.0),

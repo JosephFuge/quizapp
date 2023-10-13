@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:quizapp/routes.dart';
 
 const iconSize = 20.0;
 
 class BottomNavBar extends StatelessWidget {
-  const BottomNavBar({super.key});
+  const BottomNavBar({required this.changePage, this.currentPage = 0, super.key});
+  final Function changePage;
+  final int currentPage;
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.graduationCap, size: iconSize),
+            icon: Icon(FontAwesomeIcons.graduationCap, size: iconSize, color: currentPage == 0 ? Colors.deepPurple[200] : Colors.white70),
             label: 'Topics',
           ),
           BottomNavigationBarItem(
@@ -20,22 +21,15 @@ class BottomNavBar extends StatelessWidget {
             label: 'About',
           ),
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.circleUser, size: iconSize),
+            icon: Icon(FontAwesomeIcons.circleUser, size: iconSize, color: currentPage == 2 ? Colors.deepPurple[200] : Colors.white70),
             label: 'Profile',
           )
         ],
-        fixedColor: Colors.deepPurple[200],
+        currentIndex: currentPage,
+        selectedItemColor: Colors.deepPurple[200],
+        unselectedItemColor: Colors.white70,
         onTap: (index) {
-          switch (index) {
-            case 0:
-              break;
-            case 1:
-              Navigator.pushNamed(context, QuizRoutes.aboutPage);
-              break;
-            case 2:
-              Navigator.pushNamed(context, QuizRoutes.profilePage);
-              break;
-          }
+          changePage(index);
         });
   }
 }
