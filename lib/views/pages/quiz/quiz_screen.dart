@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quizapp/providers/quiz_provider.dart';
 import 'package:quizapp/services/firestore.dart';
 import 'package:quizapp/services/models.dart';
 import 'package:quizapp/views/components/progress_bar.dart';
-import 'package:quizapp/views/pages/quiz/quiz_state.dart';
 
 class QuizScreen extends StatelessWidget {
   const QuizScreen({required this.quizId, super.key});
@@ -12,70 +12,148 @@ class QuizScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => QuizState(),
-      child: FutureBuilder<Quiz>(
-        future: FirestoreService().getQuiz(quizId),
-        builder: (newContext, snapshot) {
-          final state = Provider.of<QuizState>(newContext);
+    return Consumer(
+      builder: (newContext, ref, child) {
+        final quiz = ref.watch(quizProvider(quizId).future);
+        final state = ref.watch(quizProvider(quizId).notifier);
 
-          if (!snapshot.hasData) {
-            return const Scaffold(body: CircularProgressIndicator());
-          } else if (snapshot.data != null) {
-            final quiz = snapshot.data!;
+        return FutureBuilder<Quiz>(
+            future: quiz,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const Scaffold(body: CircularProgressIndicator());
+              } else if (snapshot.data != null) {
+                return Scaffold(
+                  appBar: AppBar(
+                    title: ProgressBar(value: state.progress),
+                    leading: IconButton(
+                      icon: const Icon(FontAwesomeIcons.xmark),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ),
+                  body: SafeArea(
+                    child: PageView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      controller: state.controller,
+                      onPageChanged: (index) {
+                        state.progress = index / (snapshot.data!.questions.length + 1);
+                      },
+                      itemCount: snapshot.data!.questions.length + 2,
+                      itemBuilder: (_, idx) {
+                        if (idx == 0) {
+                          return StartPage(quiz: snapshot.data!);
+                        } else if (idx == snapshot.data!.questions.length + 1) {
+                          return CongratsPage(quiz: snapshot.data!);
+                        } else {
+                          return QuestionPage(question: snapshot.data!.questions[idx - 1], quizId: quizId);
+                        }
+                      },
+                    ),
+                  ),
+                );
+              } else {
+                return Scaffold(
+                  appBar: AppBar(
+                    leading: IconButton(
+                      icon: const Icon(FontAwesomeIcons.xmark),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ),
+                );
+              }
+            });
 
-            return Scaffold(
-              appBar: AppBar(
-                title: ProgressBar(value: state.progress),
-                leading: IconButton(
-                  icon: const Icon(FontAwesomeIcons.xmark),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ),
-              body: SafeArea(
-                child: PageView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  controller: state.controller,
-                  onPageChanged: (index) {
-                    state.progress = index / (quiz.questions.length + 1);
-                  },
-                  itemCount: quiz.questions.length + 2,
-                  itemBuilder: (_, idx) {
-                    if (idx == 0) {
-                      return StartPage(quiz: quiz);
-                    } else if (idx == quiz.questions.length + 1) {
-                      return CongratsPage(quiz: quiz);
-                    } else {
-                      return QuestionPage(question: quiz.questions[idx - 1]);
-                    }
-                  },
-                ),
-              ),
-            );
-          } else {
-            return Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                  icon: const Icon(FontAwesomeIcons.xmark),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ),
-            );
-          }
-        },
-      ),
+        // return Center(
+        //   child: switch (quiz) {
+        //     AsyncData(:final value) => Scaffold(
+        //         appBar: AppBar(
+        //           title: ProgressBar(value: state.progress),
+        //           leading: IconButton(
+        //             icon: const Icon(FontAwesomeIcons.xmark),
+        //             onPressed: () => Navigator.pop(context),
+        //           ),
+        //         ),
+        //         body: SafeArea(
+        //           child: PageView.builder(
+        //             physics: const NeverScrollableScrollPhysics(),
+        //             scrollDirection: Axis.vertical,
+        //             controller: state.controller,
+        //             onPageChanged: (index) {
+        //               state.progress = index / (quiz.questions.length + 1);
+        //             },
+        //             itemCount: quiz.questions.length + 2,
+        //             itemBuilder: (_, idx) {
+        //               if (idx == 0) {
+        //                 return StartPage(quiz: quiz);
+        //               } else if (idx == quiz.questions.length + 1) {
+        //                 return CongratsPage(quiz: quiz);
+        //               } else {
+        //                 return QuestionPage(question: quiz.questions[idx - 1]);
+        //               }
+        //             },
+        //           ),
+        //         ),
+        //       ),
+        //     AsyncError() => const Text('Oops, something unexpected happened'),
+        //     _ => const CircularProgressIndicator(),
+        //   },
+        // );
+
+        // if (!snapshot.hasData) {
+        //   return const Scaffold(body: CircularProgressIndicator());
+        // } else if (snapshot.data != null) {
+        //   return Scaffold(
+        //     appBar: AppBar(
+        //       title: ProgressBar(value: state.progress),
+        //       leading: IconButton(
+        //         icon: const Icon(FontAwesomeIcons.xmark),
+        //         onPressed: () => Navigator.pop(context),
+        //       ),
+        //     ),
+        //     body: SafeArea(
+        //       child: PageView.builder(
+        //         physics: const NeverScrollableScrollPhysics(),
+        //         scrollDirection: Axis.vertical,
+        //         controller: state.controller,
+        //         onPageChanged: (index) {
+        //           state.progress = index / (quiz.questions.length + 1);
+        //         },
+        //         itemCount: quiz.questions.length + 2,
+        //         itemBuilder: (_, idx) {
+        //           if (idx == 0) {
+        //             return StartPage(quiz: quiz);
+        //           } else if (idx == quiz.questions.length + 1) {
+        //             return CongratsPage(quiz: quiz);
+        //           } else {
+        //             return QuestionPage(question: quiz.questions[idx - 1]);
+        //           }
+        //         },
+        //       ),
+        //     ),
+        //   );
+        // } else {
+        //   return Scaffold(
+        //     appBar: AppBar(
+        //       leading: IconButton(
+        //         icon: const Icon(FontAwesomeIcons.xmark),
+        //         onPressed: () => Navigator.pop(context),
+        //       ),
+        //     ),
+        //   );
+        // }
+      },
     );
   }
 }
 
-class StartPage extends StatelessWidget {
+class StartPage extends ConsumerWidget {
   const StartPage({required this.quiz, super.key});
   final Quiz quiz;
 
   @override
-  Widget build(BuildContext context) {
-    final state = Provider.of<QuizState>(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(quizProvider(quiz.id).notifier);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -92,13 +170,14 @@ class StartPage extends StatelessWidget {
   }
 }
 
-class QuestionPage extends StatelessWidget {
-  const QuestionPage({required this.question, super.key});
+class QuestionPage extends ConsumerWidget {
+  const QuestionPage({required this.question, required this.quizId, super.key});
   final Question question;
+  final String quizId;
 
   @override
-  Widget build(BuildContext context) {
-    final state = Provider.of<QuizState>(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(quizProvider(quizId).notifier);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -121,7 +200,7 @@ class QuestionPage extends StatelessWidget {
     );
   }
 
-  _bottomSheet(BuildContext context, Option option, QuizState state) {
+  _bottomSheet(BuildContext context, Option option, QuizNotifier state) {
     bool correct = option.correct;
 
     showModalBottomSheet(
