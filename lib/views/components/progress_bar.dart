@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quizapp/providers/report_provider.dart';
 import 'package:quizapp/services/models.dart';
 
 class ProgressBar extends StatelessWidget {
@@ -51,24 +52,29 @@ class ProgressBar extends StatelessWidget {
   }
 }
 
-class TopicProgress extends StatelessWidget {
+class TopicProgress extends ConsumerWidget {
   const TopicProgress({required this.topic, super.key});
   final Topic topic;
 
   @override
-  Widget build(BuildContext context) {
-    Report report = Provider.of<Report>(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final report = ref.watch(reportProvider);
 
-    return Row(
-      children: [
-        _progressCount(report, topic),
-        Expanded(
-            child: ProgressBar(
-          value: _calculateProgress(report, topic),
-          height: 8,
-        ))
-      ],
-    );
+    return report.when(
+        data: (reportData) {
+          return Row(
+            children: [
+              _progressCount(reportData, topic),
+              Expanded(
+                  child: ProgressBar(
+                value: _calculateProgress(reportData, topic),
+                height: 8,
+              ))
+            ],
+          );
+        },
+        error: (_, __) => const SizedBox(),
+        loading: () => const SizedBox());
   }
 
   Widget _progressCount(Report report, Topic topic) {
@@ -83,8 +89,7 @@ class TopicProgress extends StatelessWidget {
 
   double _calculateProgress(Report report, Topic topic) {
     try {
-      return (report.topics[topic.id]?.length ?? 0) /
-          topic.quizzes.length;
+      return (report.topics[topic.id]?.length ?? 0) / topic.quizzes.length;
     } catch (err) {
       return 0.0;
     }

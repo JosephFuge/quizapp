@@ -45,8 +45,9 @@ dependencies:
   font_awesome_flutter: ^10.4.0
   json_annotation: ^4.8.0
   rxdart: ^0.27.7
-  provider: ^6.0.5
-  
+
+  flutter_riverpod: ^2.4.9
+
   logger: ^1.3.0
 
 
@@ -62,8 +63,9 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   
-  build_runner: ^2.3.3
-  json_serializable: ^6.6.1
+  build_runner: ^2.4.8
+  json_serializable: ^6.7.1
+  riverpod_lint: ^2.3.7
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
