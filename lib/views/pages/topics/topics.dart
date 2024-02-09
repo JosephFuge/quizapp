@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quizapp/services/firestore.dart';
 import 'package:quizapp/services/models.dart';
 import 'package:quizapp/views/components/topic_item.dart';
 import 'package:quizapp/views/pages/topics/drawer.dart';
 
-class TopicsPage extends StatelessWidget {
+class TopicsPage extends ConsumerWidget {
   const TopicsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder<List<Topic>>(
-      future: FirestoreService().getTopics(),
+      future: ref.watch(firestoreServiceProvider).getTopics(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());

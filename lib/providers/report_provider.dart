@@ -12,10 +12,10 @@ final reportProvider = StreamNotifierProvider.autoDispose<ReportNotifier, Report
 class ReportNotifier extends AutoDisposeStreamNotifier<Report> {
   @override
   Stream<Report> build() {
-    return FirestoreService().streamReport();
+    return ref.watch(firestoreServiceProvider).streamReport();
   }
 
   void updateReport(Quiz quiz) {
-    FirestoreService().updateUserReport(quiz);
+    ref.watch(firestoreServiceProvider).updateUserReport(quiz);
   }
 }

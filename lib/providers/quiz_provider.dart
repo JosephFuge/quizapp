@@ -13,7 +13,7 @@ class QuizNotifier extends AutoDisposeFamilyAsyncNotifier<Quiz, String> {
 
   @override
   Future<Quiz> build(String arg) async {
-    final quiz = await FirestoreService().getQuiz(arg);
+    final quiz = ref.watch(firestoreServiceProvider).getQuiz(arg);
     return quiz;
   }
 

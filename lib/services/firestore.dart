@@ -1,11 +1,19 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quizapp/providers/general_provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:quizapp/services/auth.dart';
 import 'package:quizapp/services/models.dart';
 
+final firestoreServiceProvider = Provider((ref) => FirestoreService(ref));
+
 class FirestoreService {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  FirestoreService(ProviderRef ref) {
+    _db = ref.watch(firebaseFirestoreProvider);
+  }
+
+  late FirebaseFirestore _db;
 
   Future<List<Topic>> getTopics() async {
     final ref = _db.collection('topics');

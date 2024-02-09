@@ -242,12 +242,12 @@ class QuestionPage extends ConsumerWidget {
   }
 }
 
-class CongratsPage extends StatelessWidget {
+class CongratsPage extends ConsumerWidget {
   const CongratsPage({required this.quiz, super.key});
   final Quiz quiz;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -263,7 +263,7 @@ class CongratsPage extends StatelessWidget {
             style: TextStyle(color: Colors.white),
           ),
           onPressed: () {
-            FirestoreService().updateUserReport(quiz);
+            ref.watch(firestoreServiceProvider).updateUserReport(quiz);
             Navigator.pop(context);
             Navigator.pop(context);
           },
