@@ -7,7 +7,6 @@ import 'package:quizapp/services/models.dart';
 final quizProvider = AsyncNotifierProvider.family.autoDispose<QuizNotifier, Quiz, String>(QuizNotifier.new);
 
 class QuizNotifier extends AutoDisposeFamilyAsyncNotifier<Quiz, String> {
-  double progress = 0.0;
   Option? selected;
   final PageController controller = PageController();
 
@@ -25,6 +24,7 @@ class QuizNotifier extends AutoDisposeFamilyAsyncNotifier<Quiz, String> {
 
   void nextPage() async {
     await controller.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
+    if (state.value != null) {}
   }
 }
 
