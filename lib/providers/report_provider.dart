@@ -3,10 +3,6 @@ import 'package:quizapp/services/firestore.dart';
 import 'package:quizapp/services/models.dart';
 
 /// New version - Riverpod 2.0
-// final reportProvider = StreamProvider<Report>((ref) async* {
-//   yield* FirestoreService().streamReport();
-// });
-
 final reportProvider = StreamNotifierProvider.autoDispose<ReportNotifier, Report>(ReportNotifier.new);
 
 class ReportNotifier extends AutoDisposeStreamNotifier<Report> {

@@ -10,17 +10,7 @@ final firebaseFirestoreProvider = Provider((ref) => FirebaseFirestore.instance);
 final appInitProvider = FutureProvider((ref) async {
   try {
     await Firebase.initializeApp();
-
-    // await FlutterBranchSdk.init();
   } catch (error) {
     debugPrint(error.toString());
   }
 });
-
-// final _firebaseInitProvider = FutureProvider((ref) async {
-//   try {
-//     await ref.read(_firebaseInitProvider.future);
-//   } catch (error) {
-//     debugPrint(error.toString());
-//   }
-// });
